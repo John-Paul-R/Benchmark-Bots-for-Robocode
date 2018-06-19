@@ -1,4 +1,5 @@
 import robot_components.TargetSelector;
+import robot_components.Utils;
 import robot_components.data_management.DataManager;
 import robot_components.gun.*;
 import robot_components.move.*;
@@ -29,25 +30,34 @@ public class ModularBot extends AdvancedRobot
 	
 	public void run() 
 	{
-		Properties settings = Settings.loadFromFile("bot_options.properties");
+		String fileName = "bot_options.properties";
+		Properties settings = Settings.loadFromFile(getDataFile(fileName));
+		_data = new DataManager();
+		_data.init(this);
 		_gun = Settings.getGun(this, _data);
 		_mover = Settings.getMover(this, _data);
 		_radar = Settings.getRadar(this, _data);
 		_targetSelector = Settings.getTargeter(this, _data);
-		
+		Utils.setFieldBoundsArrays(this, 20); //The number here is the buffer distance you want between the field bounds and the max/min values returned from Utils.getFieldBoundsXxYy()
 		console.println("< Modular Robot Configuration >");
-		for (Entry<Object, Object> entry: settings.entrySet())
+		/*for (Entry<Object, Object> entry: settings.entrySet())
 		{
 			console.println(String.format(" > %s  :  %s", (String)entry.getKey(), (String)entry.getValue()));
-		}
+		}*/
 		
 		//this is executed once per turn
 		while(true)
 		{
 			long currentTime = getTime();
 			_data.execute();
-			_gun.execute();
+			
+			if (_data.getEnemyDEBUG() != null)
+			{
+				_gun.setTarget(_data.getEnemyDEBUG());
+				_gun.execute();
+			}
 			_mover.execute();
+			_radar.execute();
 			console.updateTime(currentTime);
 			
 			
@@ -71,7 +81,7 @@ public class ModularBot extends AdvancedRobot
 	public void onRobotDeath(RobotDeathEvent e) 			{_data.onRobotDeath(e);}
 	public void onScannedRobot(ScannedRobotEvent e) 		{_data.onScannedRobot(e);}
 	public void onSkippedTurn(SkippedTurnEvent e) 			{_data.onSkippedTurn(e);}
-	public void onStatus(StatusEvent e) 					{_data.onStatus(e);}
+	//public void onStatus(StatusEvent e) 					{_data.onStatus(e);}
 	public void onWin(WinEvent e) 							{_data.onWin(e);}
 	
 }

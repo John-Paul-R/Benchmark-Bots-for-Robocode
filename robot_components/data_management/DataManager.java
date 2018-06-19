@@ -1,5 +1,6 @@
 package robot_components.data_management;
 
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -30,9 +31,13 @@ public class DataManager implements Manager
 	private LinkedList<BotState> _selfData;
 	private BotState cSelf;
 	
-	public DataManager(AdvancedRobot self)
+	public DataManager() {}
+	
+	public void init(AdvancedRobot self) 
 	{
 		_self = self;
+		_enemies = new HashMap<String, Bot>();
+		_selfData = new LinkedList<BotState>();
 	}
 	
 	//Do
@@ -70,6 +75,10 @@ public class DataManager implements Manager
 	
 	
 	//Get
+	public BotState getSelf() 
+	{
+		return cSelf;
+	}
 	public Bot getEnemy(String name)
 	{
 		return _enemies.get(name);
@@ -83,7 +92,7 @@ public class DataManager implements Manager
 		return _enemies.get(name).getState(index);
 	}
 	
-	//EVENTS
+	//EVENTS (Note that some events (onStatus) will trigger before the DataManager is initialized)
 	public void onBattleEnded(BattleEndedEvent e) {}
 	public void onBulletHitBullet(BulletHitBulletEvent e) {}
 	public void onBulletHit(BulletHitEvent e) {}
@@ -99,6 +108,14 @@ public class DataManager implements Manager
 	public void onRobotDeath(RobotDeathEvent e) {}
 	//public void onScannedRobot(ScannedRobotEvent e) {}
 	public void onSkippedTurn(SkippedTurnEvent e) {}
-	public void onStatus(StatusEvent e) {}
+	//public void onStatus(StatusEvent e) {}
 	public void onWin(WinEvent e) {}
+
+	public Bot getEnemyDEBUG() {
+		// TODO Auto-generated method stub
+		if (_enemies.size() > 0)
+			return _enemies.get((String) (_enemies.keySet().toArray()[0]));
+		else
+			return null;
+	}
 }

@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Path;
@@ -17,11 +18,10 @@ public final class Settings
 {
 	private static final int NUM_SETTINGS = 3; //0 = gun, 1 = movement, 2 = radar (have enabled/disabled options for all)
 	private static Properties settings;
-	public static Properties loadFromFile(String settingsFilePath)
+	public static Properties loadFromFile(File settingsFilePath)
 	{
 		FileReader reader = null;
 		Properties prop = new Properties();
-
 		try {
 			reader = new FileReader(settingsFilePath);
 		} catch (FileNotFoundException e) {
@@ -39,22 +39,35 @@ public final class Settings
 	{
 		return settings;
 	}
-	public static Gun getGun(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("gun");
-		Gun output = null;
+	private static BulletPowerSelector getBulletPowerSelector(DataManager data) {
+		String val = settings.getProperty("BulletPowerSelector");
+		BulletPowerSelector output = null;
 		
 		switch (val.toUpperCase())
 		{
-		case "LINEAER" : output = new Linear(self, data);
+		case "BY_DIST_SIMPLE" : output = new SimplePowerByDist(data);
 		break;
-		case "CONSTANT_TURN" : output = new ConstantTurnRate(self, data);
+		case "MANUAL" : output = new PowerManual(data);
 		break;
-		case "HEAD_ON" : output = new HeadOn(self, data);
 		}
-		return null;
+		return output;
+	}
+	public static Gun getGun(AdvancedRobot self, DataManager data) {
+		String val = settings.getProperty("Gun");
+		Gun output = null;
+		BulletPowerSelector bp = getBulletPowerSelector(data);
+		switch (val.toUpperCase())
+		{
+		case "LINEAER" : output = new Linear(self, data, bp);
+		break;
+		case "CONSTANT_TURN" : output = new ConstantTurnRate(self, data, bp);
+		break;
+		case "HEAD_ON" : output = new HeadOn(self, data, bp);
+		}
+		return output;
 	}
 	public static Mover getMover(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("gun");
+		String val = settings.getProperty("Mover");
 		Mover output = null;
 		switch (val.toUpperCase())
 		{
@@ -71,26 +84,26 @@ public final class Settings
 		case "WALLS" : output = new Walls_Pattern(self, data);
 		break;
 		}
-		return null;
+		return output;
 	}
 	public static Radar getRadar(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("gun");
+		String val = settings.getProperty("Radar");
 		Radar output = null;
 		switch (val.toUpperCase())
 		{
-		case "" :
+		case "SPIN" : output = new Spin(self, data);
 			break;
 		}
-		return null;
+		return output;
 	}
 	public static TargetSelector getTargeter(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("gun");
+		String val = settings.getProperty("Targeter");
 		TargetSelector output = null;
 		switch (val.toUpperCase())
 		{
 		case "" :
 			break;
 		}
-		return null;
+		return output;
 	}
 }

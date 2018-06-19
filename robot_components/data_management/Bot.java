@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class Bot
 {
-	LinkedList<BotState> _states;
-	BotState cState;
+	private LinkedList<BotState> _states;
+	private BotState cState;
 	
 	public Bot()
 	{
@@ -51,5 +51,15 @@ public class Bot
 
 	public long getTime() {
 		return cState.getTime();
+	}
+
+	public int cIndex() 
+	{
+		return _states.size()-1;
+	}
+	public double getTurn()
+	{
+		double prevHeading = getState(cIndex()-1).getHeading();
+		return  cState.getHeading() - prevHeading;
 	}
 }
