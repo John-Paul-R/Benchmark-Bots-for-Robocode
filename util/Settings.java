@@ -19,6 +19,9 @@ public final class Settings
 {
 	private static final int NUM_SETTINGS = 3; //0 = gun, 1 = movement, 2 = radar (have enabled/disabled options for all)
 	private static Properties settings;
+	private static final String propErrorFormat =
+			("ERROR \t> The property '%s' in ./ModularBot.data/bot_options.properties is invalid or configured incorrectly."
+				+ "\n\t\t> The acceptable format is:  %s = PROPERTY");
 	public static Properties loadFromFile(File settingsFilePath)
 	{
 		FileReader reader = null;
@@ -41,20 +44,24 @@ public final class Settings
 		return settings;
 	}
 	private static BulletPowerSelector getBulletPowerSelector(DataManager data) {
-		String val = settings.getProperty("BulletPowerSelector");
+		String propertyName = "BulletPowerSelector";
+		String val = settings.getProperty(propertyName);
 		BulletPowerSelector output = null;
 		
 		switch (val.toUpperCase())
 		{
-		case "BY_DIST_SIMPLE" : output = new SimplePowerByDist(data);
+		case "BY_DIST_SIMPLE" : output = new SimplePowerByDist(data);//TODO rework this mode. Its unnecessarily complicated for zero benefit
 		break;
 		case "MANUAL" : output = new PowerManual(data);
 		break;
 		}
+		if (output == null)
+			System.out.println(String.format(propErrorFormat, propertyName, propertyName));
 		return output;
 	}
 	public static Gun getGun(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("Gun");
+		String propertyName = "Gun";
+		String val = settings.getProperty(propertyName);
 		Gun output = null;
 		BulletPowerSelector bp = getBulletPowerSelector(data);
 		switch (val.toUpperCase())
@@ -65,10 +72,13 @@ public final class Settings
 		break;
 		case "HEAD_ON" : output = new HeadOn(self, data, bp);
 		}
+		if (output == null)
+			System.out.println(String.format(propErrorFormat, propertyName, propertyName));
 		return output;
 	}
 	public static Mover getMover(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("Mover");
+		String propertyName = "Mover";
+		String val = settings.getProperty(propertyName);
 		Mover output = null;
 		switch (val.toUpperCase())
 		{
@@ -85,10 +95,13 @@ public final class Settings
 		case "WALLS" : output = new Walls_Pattern(self, data);
 		break;
 		}
+		if (output == null)
+			System.out.println(String.format(propErrorFormat, propertyName, propertyName));
 		return output;
 	}
 	public static Radar getRadar(AdvancedRobot self, DataManager data) {
-		String val = settings.getProperty("Radar");
+		String propertyName = "Radar";
+		String val = settings.getProperty(propertyName);
 		Radar output = null;
 		switch (val.toUpperCase())
 		{
@@ -96,10 +109,13 @@ public final class Settings
 		break;
 		case "LOCK" : output = new Lock(self, data);
 		}
+		if (output == null)
+			System.out.println(String.format(propErrorFormat, propertyName, propertyName));
 		return output;
 	}
 	public static TargetSelector getTargeter(DataManager data) {
-		String val = settings.getProperty("Targeter");
+		String propertyName = "Targeter";
+		String val = settings.getProperty(propertyName);
 		TargetSelector output = null;
 		switch (val.toUpperCase())
 		{
@@ -107,6 +123,8 @@ public final class Settings
 		break;
 		case "CLOSEST" : output = new Closest(data);	
 		}
+		if (output == null)
+			System.out.println(String.format(propErrorFormat, propertyName, propertyName));
 		return output;
 	}
 }
