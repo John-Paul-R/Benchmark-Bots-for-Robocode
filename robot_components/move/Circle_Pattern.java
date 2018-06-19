@@ -1,5 +1,19 @@
 package robot_components.move;
 
-public class Circle_Pattern {
+import robocode.AdvancedRobot;
+import robot_components.data_management.DataManager;
+
+public class Circle_Pattern extends Mover
+{
+	public Circle_Pattern(AdvancedRobot self, DataManager data) {
+		super(self, data);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -3,10 +3,10 @@ package robot_components.gun;
 import robocode.AdvancedRobot;
 import robot_components.data_management.DataManager;
 
-public class Linear extends Gun
+public class HeadOn extends Gun
 {
 
-	public Linear(AdvancedRobot self, DataManager data) {
+	public HeadOn(AdvancedRobot self, DataManager data) {
 		super(self, data);
 		// TODO Auto-generated constructor stub
 	}
@@ -16,6 +16,5 @@ public class Linear extends Gun
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

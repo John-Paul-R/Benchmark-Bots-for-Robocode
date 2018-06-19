@@ -1,12 +1,12 @@
-package robot_components.gun;
+package robot_components.move;
 
 import robocode.AdvancedRobot;
 import robot_components.data_management.DataManager;
 
-public class Linear extends Gun
+public class LeftRight_Pattern extends Mover
 {
 
-	public Linear(AdvancedRobot self, DataManager data) {
+	public LeftRight_Pattern(AdvancedRobot self, DataManager data) {
 		super(self, data);
 		// TODO Auto-generated constructor stub
 	}
@@ -16,6 +16,5 @@ public class Linear extends Gun
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }
