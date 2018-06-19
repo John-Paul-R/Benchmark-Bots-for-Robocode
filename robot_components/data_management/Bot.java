@@ -1,6 +1,9 @@
 package robot_components.data_management;
 
+import java.awt.geom.Point2D;
 import java.util.LinkedList;
+
+import robot_components.Utils;
 
 public class Bot
 {
@@ -61,5 +64,14 @@ public class Bot
 	{
 		double prevHeading = getState(cIndex()-1).getHeading();
 		return  cState.getHeading() - prevHeading;
+	}
+
+	public double getBearing(Point2D.Double origin) {
+		return Utils.pointToAngle(origin, new Point2D.Double(getX(), getY()));
+	}
+
+	public Point2D.Double getLocation() 
+	{
+		return cState.getLocation();
 	}
 }

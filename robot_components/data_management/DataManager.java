@@ -30,7 +30,7 @@ public class DataManager implements Manager
 	private HashMap<String, Bot> _enemies;
 	private LinkedList<BotState> _selfData;
 	private BotState cSelf;
-	
+	private Bot cTarget;
 	public DataManager() {}
 	
 	public void init(AdvancedRobot self) 
@@ -117,5 +117,13 @@ public class DataManager implements Manager
 			return _enemies.get((String) (_enemies.keySet().toArray()[0]));
 		else
 			return null;
+	}
+
+	public Bot getTarget() {
+		return cTarget;
+	}
+
+	public void setTarget(Bot cTarget) {
+		this.cTarget = cTarget;
 	}
 }

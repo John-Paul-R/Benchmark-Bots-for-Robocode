@@ -92,7 +92,8 @@ public final class Settings
 		switch (val.toUpperCase())
 		{
 		case "SPIN" : output = new Spin(self, data);
-			break;
+		break;
+		case "LOCK" : output = new Lock(self, data);
 		}
 		return output;
 	}

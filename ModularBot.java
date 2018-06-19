@@ -1,5 +1,6 @@
 import robot_components.TargetSelector;
 import robot_components.Utils;
+import robot_components.data_management.Bot;
 import robot_components.data_management.DataManager;
 import robot_components.gun.*;
 import robot_components.move.*;
@@ -46,6 +47,7 @@ public class ModularBot extends AdvancedRobot
 		}*/
 		
 		//this is executed once per turn
+		Bot target;
 		while(true)
 		{
 			long currentTime = getTime();
@@ -53,7 +55,9 @@ public class ModularBot extends AdvancedRobot
 			
 			if (_data.getEnemyDEBUG() != null)
 			{
-				_gun.setTarget(_data.getEnemyDEBUG());
+				target = _data.getEnemyDEBUG();
+				_data.setTarget(target);
+				_gun.setTarget(target);
 				_gun.execute();
 			}
 			_mover.execute();

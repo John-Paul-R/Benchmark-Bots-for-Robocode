@@ -1,5 +1,7 @@
 package robot_components.data_management;
 
+import java.awt.geom.Point2D;
+
 public class BotState 
 {
 	private double _x;
@@ -41,5 +43,10 @@ public class BotState
 
 	public long getTime() {
 		return _time;
+	}
+
+	public Point2D.Double getLocation() 
+	{
+		return new Point2D.Double(_x, _y);
 	}
 }
