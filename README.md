@@ -8,6 +8,6 @@ ModularBot is a small side project of mine that aims to provide an easy way for 
 *There is nothing here!*
 
 ## Contact
-If you are interested in helping with this project or would like to contact me for any other reason, you can shoot me a message at one of these locations:
+If you are interested in helping with this project or would like to contact me for any other reason, you can send me a message on either of these platforms:
 * Email: johnpaul122jpr@gmail.com
 * Discord: JP79194#8177
