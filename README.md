@@ -1,5 +1,5 @@
 # ModularBot for [Robocode](http://robocode.sourceforge.net/)
-[Robocode's Repo](https://github.com/robo-code/robocode)
+[Robocode's Repository](https://github.com/robo-code/robocode)
 
 ## About
 ModularBot is a small side project of mine that aims to provide an easy way for developers to test their robot's performance against a variety of the movement and targeting strategies that simple bots commonly use.
