@@ -4,6 +4,7 @@ import robot_components.Utils;
 import robot_components.data_management.Bot;
 import robot_components.data_management.BotState;
 import robot_components.data_management.DataManager;
+import robot_components.data_management.Enemy;
 
 public class SimplePowerByDist extends BulletPowerSelector
 {
@@ -14,7 +15,7 @@ public class SimplePowerByDist extends BulletPowerSelector
 	}
 
 	@Override
-	public double getPower(Bot target) 
+	public double getPower(Enemy target) 
 	{
     	final double currentDist = Math.sqrt(Math.pow((target.getX() - _data.getSelf().getX()),2) + Math.pow((target.getY() - _data.getSelf().getY()), 2));
     	//final double power = Utils.limitValueBounds(1/Math.pow((currentDist/500),2), 1.1, 3); //set power to have an inverse square relationship with distance.  Set bounds to 1.1 and 3

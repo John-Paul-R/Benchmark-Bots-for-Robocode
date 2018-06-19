@@ -10,16 +10,9 @@ import robot_components.data_management.DataManager;
 
 public class Linear extends Gun
 {
-	Bot _target;
-
 	public Linear(AdvancedRobot self, DataManager data, BulletPowerSelector powerSelector) 
 	{
 		super(self, data, powerSelector);
-	}
-	
-	public void setTarget(Bot enemy)
-	{
-		_target = enemy;
 	}
 	@Override
 	public Point2D.Double getAimLocation()
@@ -53,6 +46,7 @@ public class Linear extends Gun
 	@Override
 	public void execute() 
 	{
+		_target = _data.getTargetEnemy();
 		Point2D.Double aimLocation = getAimLocation();
 		super.aimToCoordinate(aimLocation);
 	}

@@ -1,8 +1,10 @@
 package robot_components.data_management;
 
 import java.awt.geom.Point2D;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import robocode.AdvancedRobot;
 import robocode.BattleEndedEvent;
@@ -27,16 +29,17 @@ import robot_components.Manager;
 public class DataManager implements Manager
 {
 	private AdvancedRobot _self;
-	private HashMap<String, Bot> _enemies;
+	private HashMap<String, Enemy> _enemies;
 	private LinkedList<BotState> _selfData;
 	private BotState cSelf;
-	private Bot cTarget;
+	private Enemy cTarget;
+	private String cTargetName;
 	public DataManager() {}
 	
 	public void init(AdvancedRobot self) 
 	{
 		_self = self;
-		_enemies = new HashMap<String, Bot>();
+		_enemies = new HashMap<String, Enemy>();
 		_selfData = new LinkedList<BotState>();
 	}
 	
@@ -46,10 +49,6 @@ public class DataManager implements Manager
 	{
 		cSelf = new BotState(_self.getX(), _self.getY(), _self.getEnergy(), _self.getHeadingRadians(), _self.getVelocity(), _self.getTime());
 		_selfData.add(cSelf);
-	}
-	public void update()
-	{
-
 	}
 	public void onScannedRobot(ScannedRobotEvent e)
 	{
@@ -61,15 +60,15 @@ public class DataManager implements Manager
 	}
 	public void addEnemy(ScannedRobotEvent e)
 	{
-		Bot enemy = new Bot();
+		Enemy enemy = new Enemy();
 		_enemies.put(e.getName(), enemy);
 	}
 	public void addEnemyState(ScannedRobotEvent e)
 	{
-		Bot enemy = _enemies.get(e.getName());
+		Enemy enemy = _enemies.get(e.getName());
         double eX = (cSelf.getX() + Math.sin((cSelf.getHeading() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
         double eY = (cSelf.getY() + Math.cos((cSelf.getHeading() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
-		BotState scanData = new BotState(eX, eY, e.getEnergy(), e.getHeadingRadians(), e.getVelocity(), e.getTime());
+		EnemyState scanData = new EnemyState(eX, eY, e.getEnergy(), e.getHeadingRadians(), e.getVelocity(), e.getTime(), e.getDistance(), e.getBearingRadians() + cSelf.getHeading());
 		enemy.addState(scanData);
 	}
 	
@@ -79,15 +78,15 @@ public class DataManager implements Manager
 	{
 		return cSelf;
 	}
-	public Bot getEnemy(String name)
+	public Enemy getEnemy(String name)
 	{
 		return _enemies.get(name);
 	}
-	public BotState getEnemyState(String name)
+	public EnemyState getEnemyState(String name)
 	{
 		return _enemies.get(name).getState();
 	}
-	public BotState getEnemyState(String name, int index)
+	public EnemyState getEnemyState(String name, int index)
 	{
 		return _enemies.get(name).getState(index);
 	}
@@ -111,19 +110,26 @@ public class DataManager implements Manager
 	//public void onStatus(StatusEvent e) {}
 	public void onWin(WinEvent e) {}
 
-	public Bot getEnemyDEBUG() {
-		// TODO Auto-generated method stub
-		if (_enemies.size() > 0)
-			return _enemies.get((String) (_enemies.keySet().toArray()[0]));
-		else
-			return null;
-	}
-
-	public Bot getTarget() {
+	public Enemy getTargetEnemy() 
+	{
 		return cTarget;
 	}
-
-	public void setTarget(Bot cTarget) {
+	public String getTargetName() 
+	{
+		return cTargetName;
+	}
+	public void setTarget(Enemy cTarget, String cTargetName) 
+	{
 		this.cTarget = cTarget;
+		this.cTargetName = cTargetName;
+	}
+
+	public Map<String, Enemy> getEnemies() 
+	{
+		return Collections.unmodifiableMap(_enemies);
+	}
+	public HashMap<String, Enemy> getEnemiesModifiable() 
+	{
+		return (HashMap<String, Enemy>) _enemies;
 	}
 }

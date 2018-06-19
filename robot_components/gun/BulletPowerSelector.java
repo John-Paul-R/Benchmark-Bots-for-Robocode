@@ -11,6 +11,6 @@ public abstract class BulletPowerSelector
 		_data = data;
 	}
 	
-	public abstract double getPower(Bot target);
+	public abstract double getPower(Enemy _target);
 	public abstract double getPower(BotState target);
 }

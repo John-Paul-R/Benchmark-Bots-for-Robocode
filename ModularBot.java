@@ -1,6 +1,5 @@
-import robot_components.TargetSelector;
+import robot_components.selectors.TargetSelector;
 import robot_components.Utils;
-import robot_components.data_management.Bot;
 import robot_components.data_management.DataManager;
 import robot_components.gun.*;
 import robot_components.move.*;
@@ -9,7 +8,6 @@ import robot_components.radar.*;
 import util.RobotConsoleWriter;
 import util.Settings;
 
-import java.util.Formatter;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -19,7 +17,7 @@ import robocode.*;
 public class ModularBot extends AdvancedRobot 
 {
 	//Formatted Output
-	private RobotConsoleWriter console = new RobotConsoleWriter(System.out);
+	public static final RobotConsoleWriter console = new RobotConsoleWriter(System.out);
 	//Managers
 	private DataManager _data;
 	private Gun _gun;
@@ -37,38 +35,40 @@ public class ModularBot extends AdvancedRobot
 		
 		String fileName = "bot_options.properties";
 		Properties settings = Settings.loadFromFile(getDataFile(fileName));
+		
+		final double FIELD_BUFFER = 20;
+		Utils.setFieldBoundsArrays(this, FIELD_BUFFER); //The number here is the buffer distance you want between the field bounds and the max/min values returned from Utils.getFieldBoundsXxYy()
+
 		_data = new DataManager();
 		_data.init(this);
 		_gun = Settings.getGun(this, _data);
 		_mover = Settings.getMover(this, _data);
 		_radar = Settings.getRadar(this, _data);
-		_targetSelector = Settings.getTargeter(this, _data);
-		Utils.setFieldBoundsArrays(this, 20); //The number here is the buffer distance you want between the field bounds and the max/min values returned from Utils.getFieldBoundsXxYy()
-		console.println("< Modular Robot Configuration >");
-		/*for (Entry<Object, Object> entry: settings.entrySet())
-		{
-			console.println(String.format(" > %s  :  %s", (String)entry.getKey(), (String)entry.getValue()));
-		}*/
+		_targetSelector = Settings.getTargeter(_data);
 		
-		//this is executed once per turn
-		Bot target;
+		console.println("< Modular Robot Configuration >");
+		for (Entry<Object, Object> entry: settings.entrySet())
+		{
+			console.println(String.format(" - %s: %s", (String)entry.getKey(), (String)entry.getValue()));
+		}
+		console.println("< ------- Begin  Loop ------- >");
+		console.println();
+		                 
+
 		while(true)
 		{
 			long currentTime = getTime();
 			_data.execute();
+			_targetSelector.chooseTarget();
+			_data.setTarget(_targetSelector.getTarget(), _targetSelector.getTargetName());
 			
-			if (_data.getEnemyDEBUG() != null)
-			{
-				target = _data.getEnemyDEBUG();
-				_data.setTarget(target);
-				_gun.setTarget(target);
+			if (_data.getTargetEnemy() != null) {
 				_gun.execute();
 			}
 			_mover.execute();
 			_radar.execute();
+			
 			console.updateTime(currentTime);
-			
-			
 			execute();
 		}
 	}

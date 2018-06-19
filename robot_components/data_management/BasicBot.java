@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 import robot_components.Utils;
 
-public class Bot
+public class BasicBot
 {
-	protected LinkedList<BotState> _states;
-	protected BotState cState;
+	private LinkedList<BotState> _states;
+	private BotState cState;
 	
-	public Bot()
+	public BasicBot()
 	{
 		_states = new LinkedList<BotState>();
 	}

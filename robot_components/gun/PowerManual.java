@@ -3,6 +3,7 @@ package robot_components.gun;
 import robot_components.data_management.Bot;
 import robot_components.data_management.BotState;
 import robot_components.data_management.DataManager;
+import robot_components.data_management.Enemy;
 
 public class PowerManual extends BulletPowerSelector
 {
@@ -24,7 +25,7 @@ public class PowerManual extends BulletPowerSelector
 		_bulletPower = power;
 	}
 	@Override
-	public double getPower(Bot target)
+	public double getPower(Enemy target)
 	{
 		return _bulletPower;
 	}

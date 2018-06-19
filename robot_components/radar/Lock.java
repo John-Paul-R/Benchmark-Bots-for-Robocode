@@ -6,6 +6,7 @@ import robocode.AdvancedRobot;
 import robot_components.Utils;
 import robot_components.data_management.Bot;
 import robot_components.data_management.DataManager;
+import robot_components.data_management.Enemy;
 
 public class Lock extends Radar
 {
@@ -18,11 +19,11 @@ public class Lock extends Radar
 	@Override
 	public void execute() 
 	{
-		Bot target = _data.getTarget();
+		Enemy target = _data.getTargetEnemy();
 		final double FACTOR = 2.1;
-		if (target != null)
+		if (target != null && target.getTime() == _data.getSelf().getTime())
     	{
-			double absBearing = (target.getBearing(_data.getSelf().getLocation()));
+			double absBearing = target.getBearing();
 			_self.setTurnRadarRightRadians( FACTOR * robocode.util.Utils.normalRelativeAngle(absBearing - _self.getRadarHeadingRadians()) );
     	}
 		else

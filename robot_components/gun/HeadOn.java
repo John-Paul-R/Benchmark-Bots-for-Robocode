@@ -15,7 +15,8 @@ public class HeadOn extends Gun
 	
 	@Override
 	public void execute() 
-	{		
+	{	
+		_target = _data.getTargetEnemy();
 		Point2D.Double aimLocation = getAimLocation();
 		super.aimToCoordinate(aimLocation);
 		super.setFireBullet(_powerSelector.getPower(_target));

@@ -3,29 +3,28 @@ package robot_components.data_management;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
-import robot_components.Utils;
-
-public class Bot
+public class Enemy
 {
-	protected LinkedList<BotState> _states;
-	protected BotState cState;
-	
-	public Bot()
+	private LinkedList<EnemyState> _states;
+	private EnemyState cState;
+	public Enemy()
 	{
-		_states = new LinkedList<BotState>();
+		_states = new LinkedList<EnemyState>();
 	}
+
+
 	
-	public void addState(BotState state) 
+	public void addState(EnemyState state) 
 	{
 		cState = state;
 		_states.add(state);
 	}
 	
-	public BotState getState()
+	public EnemyState getState()
 	{
 		return cState;
 	}
-	public BotState getState(int index)
+	public EnemyState getState(int index)
 	{
 		return _states.get(index);
 	}
@@ -65,19 +64,20 @@ public class Bot
 		double prevHeading = getState(cIndex()-1).getHeading();
 		return  cState.getHeading() - prevHeading;
 	}
-
-	public double getBearing(Point2D.Double origin) {
-		return Utils.pointToAngle(origin, this.getLocation());
+	
+	public double getBearing()
+	{
+		return cState.getBearing();
 	}
-	public double getBearing(Bot bot) {
-		return Utils.pointToAngle(bot.getLocation(), this.getLocation());
-	}
-	public double getBearing(BotState botstate) {
-		return Utils.pointToAngle(botstate.getLocation(), this.getLocation());
-	}
-
 	public Point2D.Double getLocation() 
 	{
 		return cState.getLocation();
+	}
+
+
+
+	public double getDistance() 
+	{
+		return cState.getDistance();
 	}
 }

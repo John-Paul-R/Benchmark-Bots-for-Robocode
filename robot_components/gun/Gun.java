@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import robocode.AdvancedRobot;
 import robot_components.data_management.Bot;
 import robot_components.data_management.DataManager;
+import robot_components.data_management.Enemy;
 import robot_components.Manager;
 import robot_components.Utils;
 
@@ -13,7 +14,8 @@ public abstract class Gun implements Manager
 	protected AdvancedRobot _self;
 	protected DataManager _data;
 	protected BulletPowerSelector _powerSelector;
-	protected Bot _target;
+	protected Enemy _target;
+	
 	public Gun(AdvancedRobot self, DataManager data, BulletPowerSelector powerSelector)
 	{
 		_self = self;
@@ -49,9 +51,5 @@ public abstract class Gun implements Manager
 	public double getAimAngle()
 	{
 		return Utils.pointToAngle(_data.getSelf(), getAimLocation());
-	}
-	public void setTarget(Bot enemy)
-	{
-		_target = enemy;
 	}
 }

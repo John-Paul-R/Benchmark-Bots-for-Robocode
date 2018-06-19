@@ -8,7 +8,8 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 import robocode.AdvancedRobot;
-import robot_components.TargetSelector;
+import robot_components.selectors.Closest;
+import robot_components.selectors.TargetSelector;
 import robot_components.data_management.DataManager;
 import robot_components.gun.*;
 import robot_components.move.*;
@@ -97,13 +98,14 @@ public final class Settings
 		}
 		return output;
 	}
-	public static TargetSelector getTargeter(AdvancedRobot self, DataManager data) {
+	public static TargetSelector getTargeter(DataManager data) {
 		String val = settings.getProperty("Targeter");
 		TargetSelector output = null;
 		switch (val.toUpperCase())
 		{
-		case "" :
-			break;
+		case "" : output = new Closest(data);
+		break;
+		case "CLOSEST" : output = new Closest(data);	
 		}
 		return output;
 	}

@@ -7,6 +7,7 @@ import robocode.Rules;
 import robot_components.Utils;
 import robot_components.data_management.Bot;
 import robot_components.data_management.DataManager;
+import robot_components.data_management.Enemy;
 
 public class ConstantTurnRate extends Gun
 {
@@ -14,7 +15,7 @@ public class ConstantTurnRate extends Gun
 		super(self, data, powerSelector);
 	}
 
-	public void setTarget(Bot enemy)
+	public void setTarget(Enemy enemy)
 	{
 		_target = enemy;
 	}
@@ -22,6 +23,7 @@ public class ConstantTurnRate extends Gun
 	@Override
 	public void execute() 
 	{
+		_target = _data.getTargetEnemy();
 		if (_target.cIndex() > 1) // ensures there is enough data to run the prediction calculation (2 data points needed)
 		{
 			Point2D.Double aimLocation = getAimLocation();
