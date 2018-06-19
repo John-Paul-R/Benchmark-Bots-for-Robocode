@@ -31,6 +31,10 @@ public class ModularBot extends AdvancedRobot
 	
 	public void run() 
 	{
+		this.setAdjustGunForRobotTurn(true);
+		this.setAdjustRadarForGunTurn(true);
+		this.setAdjustRadarForRobotTurn(true);
+		
 		String fileName = "bot_options.properties";
 		Properties settings = Settings.loadFromFile(getDataFile(fileName));
 		_data = new DataManager();

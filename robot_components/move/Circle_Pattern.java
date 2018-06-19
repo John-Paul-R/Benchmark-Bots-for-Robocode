@@ -11,9 +11,12 @@ public class Circle_Pattern extends Mover
 	}
 
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
+	public void execute() 
+	{
+		_self.setTurnRightRadians(Double.POSITIVE_INFINITY);
+		_self.setMaxVelocity(6);
+		_self.setMaxTurnRate(5);
+		_self.setAhead(Double.POSITIVE_INFINITY);
 	}
 
 }

@@ -19,7 +19,7 @@ public class Lock extends Radar
 	public void execute() 
 	{
 		Bot target = _data.getTarget();
-		final double FACTOR = 2;
+		final double FACTOR = 2.1;
 		if (target != null)
     	{
 			double absBearing = (target.getBearing(_data.getSelf().getLocation()));
@@ -27,6 +27,7 @@ public class Lock extends Radar
     	}
 		else
 		{
+			System.out.println("Radar (Lock): TARGET IS NULL");
 			_self.setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
 		}
 	}
