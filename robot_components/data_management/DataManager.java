@@ -66,8 +66,8 @@ public class DataManager implements Manager
 	public void addEnemyState(ScannedRobotEvent e)
 	{
 		Enemy enemy = _enemies.get(e.getName());
-        double eX = (cSelf.getX() + Math.sin((cSelf.getHeading() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
-        double eY = (cSelf.getY() + Math.cos((cSelf.getHeading() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
+        double eX = (cSelf.getX() + Math.sin((_self.getHeadingRadians() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
+        double eY = (cSelf.getY() + Math.cos((_self.getHeadingRadians() + e.getBearingRadians()) % (2*Math.PI)) * e.getDistance());
 		EnemyState scanData = new EnemyState(eX, eY, e.getEnergy(), e.getHeadingRadians(), e.getVelocity(), e.getTime(), e.getDistance(), e.getBearingRadians() + cSelf.getHeading());
 		enemy.addState(scanData);
 	}
